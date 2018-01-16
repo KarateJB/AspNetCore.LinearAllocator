@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Allocator.DAL\Allocator.DAL.csproj" />
+    <ProjectReference Include="..\Allocator.Domain\Allocator.Domain.csproj" />    
+  </ItemGroup>
+
+</Project>
