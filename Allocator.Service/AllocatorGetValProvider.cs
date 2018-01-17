@@ -20,7 +20,6 @@ namespace Allocator.Service
         private Int64 _maxHiVal = 0;
 
         private static Int64 INTERVAL = 10; //minHi~maxHi
-        // private static bool isCreated = false; //是否已intial min/max value
         private static object block = new object();
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace Allocator.Service
                 if (!key.Equals(this._key))
                 {
                     //當Singleton被重新建立時(例如AP重啟)，強制跳號
-                    this.syncSetInstance(key: key, isForceReset: true);
+                    this.setMinMaxHi(key: key, isForceReset: true);
                     this._key = key;
                 }
                 else
@@ -56,40 +55,17 @@ namespace Allocator.Service
                     }
                     else
                     {
-                        this.syncSetInstance(key: key, isForceReset: false);
+                        this.setMinMaxHi(key: key, isForceReset: true);
                     }
                 }
 
                 return this._minHiVal;
             }
         }
-
-        /// <summary>
-        /// 重新設定instance
-        /// </summary>
-        /// <param name="key">Key name</param>
-        private void syncSetInstance(string key, bool isForceReset = false)
-        {
-            try
-            {
-                // lock (block)
-                // {
-                    //設定intance可用的min/max value
-                    this.setMinMaxHi(key, isForceReset);
-                // }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-
         /// <summary>
         /// 取得NEXT HI
         /// </summary>
-        private void setMinMaxHi(String key, bool isForceReset)
+        private void setMinMaxHi(string key, bool isForceReset=false)
         {
             try
             {
