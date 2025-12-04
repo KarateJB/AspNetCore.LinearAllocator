@@ -16,7 +16,7 @@ namespace Allocator.WebApi.Controllers
     {
         // GET api/hilo/keyName
         [Route("GetNext/{key}")]
-        public async Task<Sequence> GetNext(string key)
+        public Sequence GetNext(string key)
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -33,7 +33,7 @@ namespace Allocator.WebApi.Controllers
 
         [Route("Create")]
         [HttpPost]
-        public async Task<HttpResponseMessage> Create([FromBody] HiLo? hilo)
+        public HttpResponseMessage Create([FromBody] HiLo? hilo)
         {
             if (hilo == null)
             {

@@ -12,9 +12,9 @@ namespace Allocator.Service
     /// <summary>
     /// Singleton provider for 
     /// </summary>
-    public sealed class AllocatorGetValProvider(DbContextFactory? dbFactory) : IAllocatorGetValProvider
+    public sealed class AllocatorGetValProvider(DbContextFactory dbFactory) : IAllocatorGetValProvider
     {
-        private readonly DbContextFactory? _dbFactory = dbFactory;
+        private readonly DbContextFactory _dbFactory = dbFactory ?? throw new ArgumentNullException(nameof(dbFactory));
         private string _key = string.Empty; //紀錄Key Name
         private long _minHiVal = 0;
         private long _maxHiVal = 0;
@@ -66,9 +66,9 @@ namespace Allocator.Service
                     Timeout = new TimeSpan(0, 0, 1) //timeout : 1 min
                 };
 
-                using var dbContext = _dbFactory?.CreateDbContext();
-                using var dbContextTransaction = dbContext?.Database.BeginTransaction();
-                using var hlService = new HiLoService<DAL.Models.HiLo>(dbContext!);
+                using var dbContext = _dbFactory.CreateDbContext();
+                using var dbContextTransaction = dbContext.Database.BeginTransaction();
+                using var hlService = new HiLoService<DAL.Models.HiLo>(dbContext);
                 
                 long dbNextHi = 0;
                 long dbMaxVal = 0;
@@ -104,7 +104,7 @@ namespace Allocator.Service
                 }
                 #endregion
 
-                dbContextTransaction?.Commit();
+                dbContextTransaction.Commit();
             }
             catch (Exception)
             {
@@ -115,7 +115,7 @@ namespace Allocator.Service
 
         public void Dispose()
         {
-            _dbFactory?.Dispose();
+            _dbFactory.Dispose();
         }
 
     }
