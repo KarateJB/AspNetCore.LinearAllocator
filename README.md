@@ -4,8 +4,8 @@ Linear Allocator service written in ASP.NET Core Web API
 
 ## Required
 
-1. [.NET Core SDK](https://www.microsoft.com/net/download/windows)
-2. [Microsoft Sql Server](https://www.microsoft.com/zh-tw/sql-server/sql-server-editions-express)
+1. [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+2. [Microsoft Sql Server](https://www.microsoft.com/sql-server/sql-server-downloads)
 
 
 ## Run the project
@@ -38,5 +38,21 @@ Linear Allocator service written in ASP.NET Core Web API
 
 * Http Method: POST
 * Defaul URL: http://localhost:5123/api/Allocator/GetNext/{key}
+
+## Changelog
+
+### Version 2.0 - .NET 8 Upgrade
+- Upgraded all projects to target .NET 8
+- Updated all NuGet packages to latest .NET 8 compatible versions
+- Migrated from legacy `WebHost` to modern `WebApplication` builder pattern
+- Replaced deprecated `Microsoft.AspNetCore.All` metapackage with specific package references
+- Updated Entity Framework Core from 2.0.1 to 8.0.11
+- Replaced deprecated `System.Data.SqlClient` with `Microsoft.Data.SqlClient`
+- Updated deprecated EF Core APIs:
+  - `Relational()` → `GetTableName()`
+  - `ExecuteSqlCommand()` → `ExecuteSqlRaw()`
+- Fixed deprecated `IHostingEnvironment` to `IWebHostEnvironment`
+- Updated NLog packages to latest stable versions
+- Removed obsolete `DotNetCliToolReference` elements from project files
 
 

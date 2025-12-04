@@ -10,19 +10,19 @@ using Allocator.DAL.Models;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using Allocator.Service;
-using Microsoft.AspNetCore.Hosting;
 using Allocator.DAL;
 using Allocator.Domain.Models;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Allocator.WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class AllocatorController : BaseController
     {
-        private readonly IHostingEnvironment _env = null;
-        private readonly IAllocatorGetValProvider getValProvider = null;
+        private readonly IWebHostEnvironment _env;
+        private readonly IAllocatorGetValProvider getValProvider;
 
-        public AllocatorController(IHostingEnvironment env, IAllocatorGetValProvider getVal)
+        public AllocatorController(IWebHostEnvironment env, IAllocatorGetValProvider getVal)
         {
             this._env = env;
             this.getValProvider = getVal;

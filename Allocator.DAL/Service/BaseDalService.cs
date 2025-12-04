@@ -103,7 +103,7 @@ namespace Allocator.DAL.Service
                     try
                     {
                         this._dbContext.Database.SetCommandTimeout(new TimeSpan(0, 1, 0));//Timeout = 1 min
-                        this._dbContext.Database.ExecuteSqlCommand(sql.ToString());
+                        this._dbContext.Database.ExecuteSqlRaw(sql.ToString());
                         this._dbContext.SaveChanges();
                         dbContextTransaction.Commit();
                     }
