@@ -9,14 +9,14 @@ namespace Allocator.DAL.Models
     {
         [Key]
         [StringLength(200)]
-        public string Key { get; set; }
+        public required string Key { get; set; }
 
         [Required]
         [Column(TypeName="bigint")]
-        public Int64 NextHi { get; set; }
+        public long NextHi { get; set; }
 
         [Required]
         [Column(TypeName="bigint")]
-        public Int64 MaxValue { get; set; }
+        public long MaxValue { get; set; }
     }
 }

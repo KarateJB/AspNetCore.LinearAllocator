@@ -13,20 +13,10 @@ namespace Allocator.DAL.Service
     /// Base Service
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseDalService<T> : IBaseDalService<T> where T : UowEntity
+    public class BaseDalService<T>(DbContext dbContext) : IBaseDalService<T> where T : UowEntity
     {
-        protected DbContext _dbContext = null;
-        protected DbSet<T> _entities = null;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="dbContext">DbContext for injection</param>
-        public BaseDalService(DbContext dbContext)
-        {
-            this._dbContext = dbContext;
-            this._entities = this._dbContext.Set<T>();
-        }
+        protected readonly DbContext _dbContext = dbContext;
+        protected readonly DbSet<T> _entities = dbContext.Set<T>();
 
         /// <summary>
         /// Get all records
