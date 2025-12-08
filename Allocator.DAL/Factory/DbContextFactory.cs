@@ -23,11 +23,12 @@ namespace Allocator.DAL
         public AllocatorDbContext CreateDbContext(string[]? args = null)
         {
             string settingPath = string.Empty;
+
+            // TODO: refactor to use IConfiguration from DI container
             if (!string.IsNullOrEmpty(this._envName))
                 settingPath = $"appsettings.{this._envName}.json";
             else
                 settingPath = $"appsettings.json";
-
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
