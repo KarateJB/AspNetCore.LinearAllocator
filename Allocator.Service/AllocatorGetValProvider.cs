@@ -14,7 +14,7 @@ namespace Allocator.Service
     /// </summary>
     public sealed class AllocatorGetValProvider(DbContextFactory dbFactory) : IAllocatorGetValProvider
     {
-        private readonly DbContextFactory _dbFactory = dbFactory ?? throw new ArgumentNullException(nameof(dbFactory));
+        private readonly DbContextFactory _dbFactory = dbFactory;
         private string _key = string.Empty; //紀錄Key Name
         private long _minHiVal = 0;
         private long _maxHiVal = 0;
