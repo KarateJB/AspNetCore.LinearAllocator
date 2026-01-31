@@ -6,15 +6,8 @@ using System.Linq;
 
 namespace Allocator.Service
 {
-    public class AllocatorManager : IDisposable
+    public class AllocatorManager(DbContextFactory dbFactory) : IDisposable
     {
-        private DbContextFactory _dbFactory = null;
-
-        public AllocatorManager(DbContextFactory dbFactory)
-        {
-            this._dbFactory = dbFactory;
-        }
-
         /// <summary>
         /// Create new HiLo instance in database
         /// </summary>
@@ -24,24 +17,23 @@ namespace Allocator.Service
         {
             isKeyExist = false;
 
-            using (var hlService = new HiLoService<HiLo>(this._dbFactory.CreateDbContext()))
+            using var hlService = new HiLoService<HiLo>(dbFactory.CreateDbContext());
+            isKeyExist = hlService.GetAll().Any(x => x.Key.Equals(hl.Key));
+            if (!isKeyExist)
             {
-                isKeyExist = hlService.GetAll().Any(x => x.Key.Equals(hl.Key));
-                if (!isKeyExist)
-                {
-                    hlService.Add(hl);
-                }
-                else
-                {
-                    isKeyExist = true;
-                }
+                hlService.Add(hl);
+            }
+            else
+            {
+                isKeyExist = true;
             }
         }
 
         /// <summary>
         /// 取得Next value
         /// </summary>
-        /// <param name="keyName"></param>
+        /// <param name="key">Key name</param>
+        /// <param name="getValProvider">Value provider</param>
         /// <returns></returns>
         public Domain.Models.Sequence GetNextVal(string key, IAllocatorGetValProvider getValProvider)
         {

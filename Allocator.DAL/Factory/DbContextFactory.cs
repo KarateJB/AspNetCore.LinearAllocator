@@ -8,8 +8,8 @@ namespace Allocator.DAL
 {
     public class DbContextFactory : IDesignTimeDbContextFactory<AllocatorDbContext>, IDisposable
     {
-        private AllocatorDbContext _dbContext = null;
-        private string _envName = string.Empty;
+        private AllocatorDbContext? _dbContext;
+        private readonly string _envName = string.Empty;
 
         public DbContextFactory()
         {
@@ -20,14 +20,15 @@ namespace Allocator.DAL
             this._envName = envName;
         }
 
-        public AllocatorDbContext CreateDbContext(string[] args = null)
+        public AllocatorDbContext CreateDbContext(string[]? args = null)
         {
             string settingPath = string.Empty;
+
+            // TODO: refactor to use IConfiguration from DI container
             if (!string.IsNullOrEmpty(this._envName))
                 settingPath = $"appsettings.{this._envName}.json";
             else
                 settingPath = $"appsettings.json";
-
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -47,9 +48,7 @@ namespace Allocator.DAL
 
         public void Dispose()
         {
-            if (this._dbContext != null)
-                this._dbContext.Dispose();
-
+            _dbContext?.Dispose();
         }
     }
 }

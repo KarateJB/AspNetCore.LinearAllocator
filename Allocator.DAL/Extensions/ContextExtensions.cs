@@ -12,9 +12,9 @@ namespace Allocator.DAL.Extensions
         /// <returns>Table name</returns>
         public static string GetTableName<T>(this DbContext dbContext) where T : class
         {
-            var mapping = dbContext.Model.FindEntityType(typeof(T).FullName).Relational();
-            var schema = mapping.Schema;
-            return mapping.TableName;
+            var entityType = dbContext.Model.FindEntityType(typeof(T));
+            var tableName = entityType?.GetTableName();
+            return tableName ?? typeof(T).Name;
         }
     }
 }
