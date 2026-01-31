@@ -20,7 +20,7 @@ namespace Allocator.Service
         private long _maxHiVal = 0;
 
         private const long INTERVAL = 10; //minHi~maxHi
-        private static readonly object block = new();
+        private static readonly object _block = new();
 
         /// <summary>
         /// 取號
@@ -28,7 +28,7 @@ namespace Allocator.Service
         /// <returns></returns>
         public long GetNextVal(string key)
         {
-            lock (block)
+            lock (_block)
             {
                 if (!key.Equals(_key))
                 {

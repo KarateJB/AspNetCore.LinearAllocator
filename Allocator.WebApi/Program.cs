@@ -17,6 +17,8 @@ builder.Services.AddControllers();
 
 #region CORS
 // Enable CORS
+// Note: AllowAnyOrigin() is used for development/testing. 
+// For production, use WithOrigins() with specific origins and add AllowCredentials() if needed.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -30,6 +32,8 @@ builder.Services.AddCors(options =>
 #endregion
 
 #region Singleton HiLo-GetValue Provider
+// Note: AllocatorGetValProvider is intentionally a singleton to maintain HiLo state across requests.
+// The DbContextFactory creates short-lived DbContext instances internally to avoid EF Core lifecycle issues.
 var dbFactory = new DbContextFactory(builder.Environment.EnvironmentName);
 builder.Services.AddSingleton<IAllocatorGetValProvider>(provider => new AllocatorGetValProvider(dbFactory));
 #endregion

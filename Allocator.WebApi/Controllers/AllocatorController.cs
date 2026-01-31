@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Allocator.DAL.Models;
 using Allocator.Service;
@@ -15,12 +14,13 @@ namespace Allocator.WebApi.Controllers
     public class AllocatorController(IWebHostEnvironment env, IAllocatorGetValProvider getValProvider) : BaseController
     {
         // GET api/hilo/keyName
+        [HttpGet]
         [Route("GetNext/{key}")]
         public Sequence GetNext(string key)
         {
             if (string.IsNullOrEmpty(key))
             {
-                throw new HttpRequestException("The key should not be NULL!");
+                throw new ArgumentNullException(nameof(key), "The key should not be NULL!");
             }
 
             using var dbFactory = new DbContextFactory(env.EnvironmentName);
